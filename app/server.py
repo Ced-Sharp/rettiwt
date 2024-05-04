@@ -53,7 +53,7 @@ async def index(request: Request):
         params = ''
         if len(request.query_params.keys()) > 0:
             params = '?' + '&'.join([f'{k}={v}' for k,v in request.query_params.items()])
-        return RedirectResponse('http://localhost:5173/' + params)
+        return RedirectResponse('http://localhost:4321/' + params)
     else:
         if '.' in request.url.path.lstrip('/').split('?')[0]:
             return Response(status_code=404)
