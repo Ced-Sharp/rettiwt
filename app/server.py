@@ -2,8 +2,10 @@ import os.path
 from fastapi import FastAPI, Request, Response
 from fastapi.responses import FileResponse, RedirectResponse
 from starlette.middleware.base import BaseHTTPMiddleware
+from sqlmodel import SQLModel, create_engine
 
 from app.config import ENVIRONMENT
+from app.auth import use_auth
 
 
 app = FastAPI()
@@ -42,6 +44,12 @@ if ENVIRONMENT == 'development':
 else:
     app.add_middleware(StaticFilesMiddleware, 
                        directory=os.path.join(__file__, '../frontend/dist'))
+
+
+#
+# Register different apps
+#
+use_auth(app)
 
 
 #

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+SCRIPT_PATH=$(dirname $(realpath $0))
+IS_CEDRIK_SERVER=$(cat /etc/hostname | grep -q "gaming" && echo "1" || echo "0")
+
+set -a
+. $SCRIPT_PATH/.env 2>/dev/null
+set +a
+
+. $SCRIPT_PATH/cli/colors.sh
+. $SCRIPT_PATH/cli/help.sh
+. $SCRIPT_PATH/cli/running.sh
+
+
+echo "$BG_BLUE$WHITE Rettiwt $RESET$YELLOW$INVERT in $ENVIRONMENT mode $RESET"
+echo ""
+
+# Read first argument. If it is a valid command, run it.
+# Otherwise, show help.
+if [[ $# -eq 0 ]]; then
+    show_help
+    exit 1
+fi
+
+case $1 in
+    backend) run_backend;;
+    frontend) run_frontend;;
+    db) connect_db;;
+    *)
+        echo "$ERROR Unknown command$YELLOW $1$RESET"
+        show_help
+        exit 1
+        ;;
+esac
+
